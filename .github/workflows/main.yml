@@ -53,7 +53,7 @@ jobs:
         run: black --check .
 
       - name: Run Migrations
-        run: python manage.py migrate
+        run: python iot_device_management/manage.py migrate
 
       - name: Run Tests
         run: pytest
