@@ -58,4 +58,4 @@ jobs:
       - name: Run Tests
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          pytest tests
+          pytest iot_device_management/tests
