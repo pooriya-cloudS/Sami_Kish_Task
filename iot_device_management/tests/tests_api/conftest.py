@@ -20,9 +20,7 @@ def authenticated_user(db):
     Create an authenticated user for testing
     """
     user = User.objects.create_user(
-        email="testuser@example.com",
-        name="Test User",
-        password="testpass123"
+        email="testuser@example.com", name="Test User", password="testpass123"
     )
     return user
 
@@ -48,6 +46,7 @@ def customer_payload():
         "email": "test@example.com",
     }
 
+
 @pytest.fixture
 def customer(authenticated_api_client):
     response = authenticated_api_client.post(
@@ -71,11 +70,10 @@ def device_payload(customer):
         "is_active": True,
     }
 
+
 @pytest.fixture
 def device(authenticated_api_client, device_payload):
     response = authenticated_api_client.post(
-        "/api/devices/",
-        device_payload,
-        format="json"
+        "/api/devices/", device_payload, format="json"
     )
     return response.data

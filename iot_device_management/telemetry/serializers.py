@@ -6,4 +6,3 @@ class TelemetrySerializer(serializers.ModelSerializer):
     class Meta:
         model = TelemetryData
         fields = "__all__"
-

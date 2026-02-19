@@ -21,9 +21,7 @@ def test_create_device(authenticated_api_client, device_payload):
     Scenario: Register a new device
     """
     response = authenticated_api_client.post(
-        "/api/devices/",
-        device_payload,
-        format="json"
+        "/api/devices/", device_payload, format="json"
     )
     assert response.status_code == 201
     assert "id" in response.data
@@ -36,9 +34,7 @@ def test_get_device_by_id(authenticated_api_client, device_payload):
     Scenario: Retrieve device details by id
     """
     create = authenticated_api_client.post(
-        "/api/devices/",
-        device_payload,
-        format="json"
+        "/api/devices/", device_payload, format="json"
     )
     device_id = create.data["id"]
 
@@ -54,16 +50,12 @@ def test_update_device(authenticated_api_client, device_payload):
     Scenario: Update device information
     """
     create = authenticated_api_client.post(
-        "/api/devices/",
-        device_payload,
-        format="json"
+        "/api/devices/", device_payload, format="json"
     )
     device_id = create.data["id"]
 
     response = authenticated_api_client.patch(
-        f"/api/devices/{device_id}/",
-        {"is_active": False},
-        format="json"
+        f"/api/devices/{device_id}/", {"is_active": False}, format="json"
     )
 
     assert response.status_code == 200
@@ -76,9 +68,7 @@ def test_delete_device(authenticated_api_client, device_payload):
     Scenario: Delete a device
     """
     create = authenticated_api_client.post(
-        "/api/devices/",
-        device_payload,
-        format="json"
+        "/api/devices/", device_payload, format="json"
     )
     device_id = create.data["id"]
 
@@ -127,15 +117,11 @@ def test_filter_devices_by_device_type(authenticated_api_client, device_payload)
     Scenario: Filter devices by device_type
     """
     authenticated_api_client.post(
-        "/api/devices/",
-        device_payload | {"device_type": "sensor"},
-        format="json"
+        "/api/devices/", device_payload | {"device_type": "sensor"}, format="json"
     )
 
     authenticated_api_client.post(
-        "/api/devices/",
-        device_payload | {"device_type": "gateway"},
-        format="json"
+        "/api/devices/", device_payload | {"device_type": "gateway"}, format="json"
     )
 
     response = authenticated_api_client.get("/api/devices/?device_type=sensor")

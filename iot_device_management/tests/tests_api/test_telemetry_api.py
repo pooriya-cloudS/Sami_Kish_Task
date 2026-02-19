@@ -17,7 +17,7 @@ def test_submit_telemetry(authenticated_api_client, device):
             "metric_name": "temperature",
             "humidity": 55,
         },
-        format="json"
+        format="json",
     )
     assert response.status_code == 201
     assert "id" in response.data
@@ -37,12 +37,10 @@ def test_get_telemetry_for_device(authenticated_api_client, device):
             "metric_name": "temperature",
             "humidity": 60,
         },
-        format="json"
+        format="json",
     )
 
-    response = authenticated_api_client.get(
-        f"/api/devices/{device['id']}/telemetry/"
-    )
+    response = authenticated_api_client.get(f"/api/devices/{device['id']}/telemetry/")
 
     assert response.status_code == 200
     results = response.data.get("results", response.data)
@@ -64,12 +62,16 @@ def test_get_telemetry_within_date_range(authenticated_api_client, device):
             "metric_name": "temperature",
             "timestamp": timezone.now().isoformat(),
         },
-        format="json"
+        format="json",
     )
 
     now = timezone.now()
-    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
-    today_end = now.replace(hour=23, minute=59, second=59, microsecond=999999).strftime("%Y-%m-%d %H:%M:%S")
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+    today_end = now.replace(hour=23, minute=59, second=59, microsecond=999999).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
 
     response = authenticated_api_client.get(
         f"/api/devices/{device['id']}/telemetry/"
@@ -94,9 +96,7 @@ def test_last_seen_updated_after_telemetry_submission(authenticated_api_client, 
     """
 
     # Given: a device exists and has an initial last_seen
-    initial_response = authenticated_api_client.get(
-        f"/api/devices/{device['id']}/"
-    )
+    initial_response = authenticated_api_client.get(f"/api/devices/{device['id']}/")
     initial_last_seen = initial_response.data.get("last_seen")
 
     # When: telemetry is submitted
@@ -108,15 +108,13 @@ def test_last_seen_updated_after_telemetry_submission(authenticated_api_client, 
             "metric_name": "temperature",
             "humidity": 65,
         },
-        format="json"
+        format="json",
     )
 
     assert telemetry_response.status_code == 201
 
     # Then: device last_seen should be updated (regardless of source)
-    updated_response = authenticated_api_client.get(
-        f"/api/devices/{device['id']}/"
-    )
+    updated_response = authenticated_api_client.get(f"/api/devices/{device['id']}/")
 
     updated_last_seen = updated_response.data.get("last_seen")
 

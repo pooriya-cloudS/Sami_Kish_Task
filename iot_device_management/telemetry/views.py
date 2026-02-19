@@ -23,6 +23,7 @@ class DeviceTelemetryListAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TelemetrySerializer
 
+
 @extend_schema(tags=["Telemetry"])
 class TelemetryListAPIView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -42,6 +43,7 @@ class TelemetryListAPIView(ListAPIView):
             queryset = queryset.filter(timestamp__lte=end)
 
         return queryset
+
 
 @extend_schema(tags=["Telemetry"])
 class TelemetryStatsAPIView(APIView):

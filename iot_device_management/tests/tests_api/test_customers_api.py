@@ -20,11 +20,7 @@ def test_create_customer_success(api_client, customer_payload):
     Feature: Customers
     Scenario: Create a new customer
     """
-    response = api_client.post(
-        "/api/users/",
-        customer_payload,
-        format="json"
-    )
+    response = api_client.post("/api/users/", customer_payload, format="json")
     print(response.data)
 
     assert response.status_code == 201
@@ -42,11 +38,7 @@ def test_create_customer_invalid_email(api_client, customer_payload):
     """
     customer_payload["email"] = "not-an-email"
 
-    response = api_client.post(
-        "/api/users/",
-        customer_payload,
-        format="json"
-    )
+    response = api_client.post("/api/users/", customer_payload, format="json")
 
     assert response.status_code == 400
     assert "email" in response.data
