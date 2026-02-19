@@ -74,3 +74,19 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest iot_device_management/tests --tb=short -q
+
+      - name: Build Django Docker image
+        run: docker build -t django_test_image .
+
+      - name: Run Django container for test
+        run: |
+          docker run --rm \
+              -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+              -e DEBUG=True \
+              -e POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+              -e POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+              -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+              -e POSTGRES_HOST=host.docker.internal \
+              -e POSTGRES_PORT=5432 \
+              -e REDIS_URL=redis://host.docker.internal:6379/0 \
+              django_test_image python /app/manage.py test
