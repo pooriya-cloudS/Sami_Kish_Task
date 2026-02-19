@@ -1,6 +1,7 @@
 from django.db import models
 import secrets
 
+
 class APIKey(models.Model):
     name = models.CharField(max_length=100)
     key = models.CharField(max_length=64, unique=True, editable=False)

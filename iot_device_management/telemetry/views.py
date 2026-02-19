@@ -11,6 +11,7 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.core.cache import cache
 from authentication.permissions import HasAPIKey
 
+
 @extend_schema(
     tags=["Telemetry"],
     parameters=[

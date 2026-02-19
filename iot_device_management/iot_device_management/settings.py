@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "devices.apps.DevicesConfig",
     "telemetry.apps.TelemetryConfig",
-    "authentication.apps.AuthenticationConfig"
+    "authentication.apps.AuthenticationConfig",
 ]
 # Rest Api Config
 REST_FRAMEWORK = {

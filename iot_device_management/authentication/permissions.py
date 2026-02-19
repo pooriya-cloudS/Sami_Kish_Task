@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
 
+
 class HasAPIKey(BasePermission):
     message = "API Key is required."
 

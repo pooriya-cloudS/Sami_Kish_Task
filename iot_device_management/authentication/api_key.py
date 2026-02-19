@@ -3,6 +3,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.utils import timezone
 from .models import APIKey
 
+
 class APIKeyAuthentication(BaseAuthentication):
     header_name = "X-API-KEY"
 
