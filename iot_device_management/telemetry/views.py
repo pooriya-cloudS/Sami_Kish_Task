@@ -1,15 +1,14 @@
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from django.utils.dateparse import parse_datetime
 from .models import TelemetryData
 from .serializers import TelemetrySerializer
-from iot_device_management.paginations import StandardPagePagination
+from iot_device_management.paginations import StandardCursorPagination
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Min, Max, Avg
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+from django.core.cache import cache
 
 
 @extend_schema(
@@ -28,7 +27,7 @@ class DeviceTelemetryListAPIView(CreateAPIView):
 class TelemetryListAPIView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = TelemetrySerializer
-    pagination_class = StandardPagePagination
+    pagination_class = StandardCursorPagination
 
     def get_queryset(self):
         device_id = self.kwargs.get("id")
@@ -55,18 +54,23 @@ class TelemetryStatsAPIView(APIView):
         start = request.query_params.get("start_date")
         end = request.query_params.get("end_date")
 
+        cache_key = f"telemetry:stats:{id}:{start}:{end}"
+        cached_data = cache.get(cache_key)
+
+        if cached_data:
+            return Response(cached_data)
+
         if start:
             queryset = queryset.filter(timestamp__gte=start)
         if end:
             queryset = queryset.filter(timestamp__lte=end)
 
         data = queryset.aggregate(
-            min_temp=Min("temperature"),
-            max_temp=Max("temperature"),
-            avg_temp=Avg("temperature"),
-            min_humidity=Min("humidity"),
-            max_humidity=Max("humidity"),
-            avg_humidity=Avg("humidity"),
+            min_metric_value=Min("metric_value"),
+            max_metric_value=Max("metric_value"),
+            avg_metric_value=Avg("metric_value"),
         )
+
+        cache.set(cache_key, data, timeout=60 * 5)
 
         return Response(data)
