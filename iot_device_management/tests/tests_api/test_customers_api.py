@@ -3,15 +3,16 @@ import pytest
 pytestmark = pytest.mark.django_db
 
 
-def test_list_customers(api_client):
+def test_list_customers(authenticated_api_client):
     """
     Feature: Customers
     Scenario: List all customers
     """
-    response = api_client.get("/api/customers/")
+    response = authenticated_api_client.get("/api/users/")
 
     assert response.status_code == 200
-    assert isinstance(response.data, list)
+    results = response.data.get("results", response.data)
+    assert isinstance(results, list)
 
 
 def test_create_customer_success(api_client, customer_payload):
@@ -20,10 +21,11 @@ def test_create_customer_success(api_client, customer_payload):
     Scenario: Create a new customer
     """
     response = api_client.post(
-        "/api/customers/",
+        "/api/users/",
         customer_payload,
         format="json"
     )
+    print(response.data)
 
     assert response.status_code == 201
 
@@ -41,7 +43,7 @@ def test_create_customer_invalid_email(api_client, customer_payload):
     customer_payload["email"] = "not-an-email"
 
     response = api_client.post(
-        "/api/customers/",
+        "/api/users/",
         customer_payload,
         format="json"
     )
