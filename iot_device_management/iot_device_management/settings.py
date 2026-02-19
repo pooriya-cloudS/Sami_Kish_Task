@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "devices.apps.DevicesConfig",
     "telemetry.apps.TelemetryConfig",
+    "authentication.apps.AuthenticationConfig",
 ]
 # Rest Api Config
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        "authentication.api_key.APIKeyAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
