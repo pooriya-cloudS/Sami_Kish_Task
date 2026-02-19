@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from django.db.models import Min, Max, Avg
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.core.cache import cache
+from authentication.permissions import HasAPIKey
 
 
 @extend_schema(
@@ -19,7 +20,7 @@ from django.core.cache import cache
     ],
 )
 class DeviceTelemetryListAPIView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated | HasAPIKey]
     serializer_class = TelemetrySerializer
 
 

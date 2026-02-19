@@ -1,0 +1,163 @@
+{
+  "info": {
+    "_postman_id": "b6f07d7e-9876-1234-9876-abcdefabcdef",
+    "name": "IoT Platform Full API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Full Postman collection for IoT Platform: Customers, Devices, Telemetry with JWT/Auth"
+  },
+  "item": [
+    {
+      "name": "Auth - Obtain JWT",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/auth/token/", "host": ["{{base_url}}"], "path": ["api","auth","token"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Refresh JWT",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n    \"refresh\": \"<refresh_token_here>\"\n}" },
+        "url": { "raw": "{{base_url}}/api/auth/token/refresh/", "host": ["{{base_url}}"], "path": ["api","auth","token","refresh"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Customers - List",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+        "url": { "raw": "{{base_url}}/api/customers/", "host": ["{{base_url}}"], "path": ["api","customers"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Customers - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Customer 1\",\n    \"email\": \"customer1@example.com\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/customers/", "host": ["{{base_url}}"], "path": ["api","customers"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Devices - List (with filtering)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+        "url": {
+          "raw": "{{base_url}}/api/devices/?customer_id=1&device_type=sensor&is_active=true",
+          "host": ["{{base_url}}"],
+          "path": ["api","devices"],
+          "query": [
+            { "key": "customer_id", "value": "1" },
+            { "key": "device_type", "value": "sensor" },
+            { "key": "is_active", "value": "true" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Devices - Create/Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"serial_number\": \"SN-001\",\n    \"name\": \"Device 1\",\n    \"device_type\": \"sensor\",\n    \"customer\": 1,\n    \"is_active\": true\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/devices/", "host": ["{{base_url}}"], "path": ["api","devices"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Devices - Retrieve by ID",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+        "url": { "raw": "{{base_url}}/api/devices/1/", "host": ["{{base_url}}"], "path": ["api","devices","1"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Devices - Update (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Updated Device Name\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/devices/1/", "host": ["{{base_url}}"], "path": ["api","devices","1"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Devices - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+        "url": { "raw": "{{base_url}}/api/devices/1/", "host": ["{{base_url}}"], "path": ["api","devices","1"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Telemetry - Submit",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"device\": 1,\n    \"metric_name\": \"temperature\",\n    \"metric_value\": 25.5\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/telemetry/", "host": ["{{base_url}}"], "path": ["api","telemetry"] }
+      },
+      "response": []
+    },
+    {
+      "name": "Telemetry - Get for Device",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+        "url": {
+          "raw": "{{base_url}}/api/devices/1/telemetry/?start_date=2026-02-19T00:00:00&end_date=2026-02-19T23:59:59",
+          "host": ["{{base_url}}"],
+          "path": ["api","devices","1","telemetry"],
+          "query": [
+            { "key": "start_date", "value": "2026-02-19T00:00:00" },
+            { "key": "end_date", "value": "2026-02-19T23:59:59" }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "access_token", "value": "" }
+  ]
+}
