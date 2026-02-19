@@ -26,7 +26,7 @@ Key capabilities include:
 - Pagination for all list endpoints
 - Interactive API documentation
 - Automated test coverage
-
+- BDD And TDD principle implementation By Gherkin
 ---
 
 ## ✨ Features
@@ -62,13 +62,12 @@ The application follows a layered and maintainable architecture:
 - Predictable API responses
 - Minimal coupling between layers
 - Scalable query patterns
-- Production-oriented structure
 
 ---
 
 ## 🛠 Tech Stack
 
-- Python 3.10+
+- Python 3.12+
 - Django
 - Django REST Framework
 - PostgreSQL (SQLite supported for local development)
@@ -156,12 +155,6 @@ The project includes:
 pytest
 ```
 
-or
-
-```bash
-python manage.py test
-```
-
 ---
 
 ## ⚙️ Local Development Setup
@@ -194,6 +187,9 @@ Create a `.env` file:
 SECRET_KEY=your_secret_key
 DEBUG=True
 DATABASE_URL=your_database_url
+.
+.
+.
 ```
 
 ### 5. Apply migrations
@@ -235,9 +231,6 @@ The architecture allows for future enhancements such as:
 - Role-based access control
 - CI/CD integration
 - API key authentication for IoT devices
-- Horizontal scaling for high telemetry throughput
-- Monitoring and logging integration
-
 ---
 
 ## 📌 Engineering Focus
