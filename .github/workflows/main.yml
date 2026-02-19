@@ -89,4 +89,4 @@ jobs:
               -e POSTGRES_HOST=host.docker.internal \
               -e POSTGRES_PORT=5432 \
               -e REDIS_URL=redis://host.docker.internal:6379/0 \
-              django_test_image python iot_device_management/manage.py test
+              django_test_image python /app/manage.py test
