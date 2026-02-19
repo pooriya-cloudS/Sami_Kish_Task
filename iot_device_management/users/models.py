@@ -5,7 +5,6 @@ from . import managers
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=100)
-    username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=200, unique=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -18,6 +17,9 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
     objects = managers.UserManager()
+
+    class Meta:
+        ordering = ["-id"]
 
     def __str__(self):
         return self.email
