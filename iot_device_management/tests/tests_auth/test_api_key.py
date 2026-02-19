@@ -25,7 +25,9 @@ def api_key(db):
 
 @pytest.fixture
 def customer(db):
-    return User.objects.create_user(email="testcustomer@gmail.com", password="password123")
+    return User.objects.create_user(
+        email="testcustomer@gmail.com", password="password123"
+    )
 
 
 @pytest.fixture
