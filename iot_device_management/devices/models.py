@@ -20,5 +20,8 @@ class Device(models.Model):
     is_active = models.BooleanField(default=True)
     last_seen = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        ordering = ["-id"]
+
     def __str__(self):
         return f"{self.name} ({self.serial_number})"

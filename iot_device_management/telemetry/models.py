@@ -8,7 +8,10 @@ class TelemetryData(models.Model):
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     metric_name = models.CharField(max_length=50)
-    metric_value = models.DecimalField(max_digits=10, decimal_places=2)
+    metric_value = models.FloatField()
+
+    class Meta:
+        ordering = ["-timestamp"]
 
     def __str__(self):
-        return f"{self.device.name} - {self.metric_name} @ {self.timestamp}"
+        return f"{self.device.name} - {self.created_at}"
