@@ -27,6 +27,7 @@ Key capabilities include:
 - Interactive API documentation
 - Automated test coverage
 - BDD And TDD principle implementation By Gherkin
+- Gitflow principle be used in this project for branch and project management
 ---
 
 ## ✨ Features
