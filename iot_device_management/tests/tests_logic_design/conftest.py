@@ -6,6 +6,7 @@ from django.utils.timezone import now
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 @pytest.fixture
 def user(db):
     return User.objects.create_user(
@@ -24,9 +25,7 @@ def api_client(db, user):
     refresh = RefreshToken.for_user(user)
     access_token = str(refresh.access_token)
 
-    client.credentials(
-        HTTP_AUTHORIZATION=f"Bearer {access_token}"
-    )
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
 
     return client
 

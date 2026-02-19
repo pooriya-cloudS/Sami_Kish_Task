@@ -90,17 +90,13 @@ def test_telemetry_aggregation_is_cached(api_client, device):
     cache.delete(cache_key)
 
     # First call → compute + cache
-    response1 = api_client.get(
-        f"/api/devices/{device.id}/telemetry/stats/"
-    )
+    response1 = api_client.get(f"/api/devices/{device.id}/telemetry/stats/")
     assert response1.status_code == 200
 
     cached_value = cache.get(cache_key)
     assert cached_value is not None
 
     # Second call → should hit cache
-    response2 = api_client.get(
-        f"/api/devices/{device.id}/telemetry/stats/"
-    )
+    response2 = api_client.get(f"/api/devices/{device.id}/telemetry/stats/")
 
     assert response1.json() == response2.json()
